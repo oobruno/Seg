@@ -8,6 +8,8 @@ public class Usuario {
     private String senha;
     private String email;
     private String telefone;
+    private int id;
+    private String nome;
 
     // Construtor que inicializa o objeto a partir de um JSONObject
     public Usuario(JSONObject jp) {
@@ -19,10 +21,37 @@ public class Usuario {
             // Adicione outros campos conforme necessário
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            // Trate a exceção lançada pelos setters
+            e.printStackTrace();
         }
     }
 
-    // Getter e Setter para usuario
+    // Construtor padrão
+    public Usuario() throws Exception {
+        this.setId(0);
+        this.setNome("");
+        this.setSenha("");
+        this.setEmail("");
+        this.setTelefone("");
+    }
+
+    public JSONObject toJsonObject() {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("id", this.id);
+            json.put("nome", this.nome);
+            json.put("senha", this.senha);
+            json.put("email", this.email);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+
+    // Getters e Setters para usuario
     public String getUsuario() {
         return this.usuario;
     }
@@ -34,7 +63,7 @@ public class Usuario {
         this.usuario = usuario;
     }
 
-    // Getter e Setter para senha
+    // Getters e Setters para senha
     public String getSenha() {
         return this.senha;
     }
@@ -46,7 +75,7 @@ public class Usuario {
         this.senha = senha;
     }
 
-    // Getter e Setter para email
+    // Getters e Setters para email
     public String getEmail() {
         return this.email;
     }
@@ -58,7 +87,7 @@ public class Usuario {
         this.email = email;
     }
 
-    // Getter e Setter para telefone
+    // Getters e Setters para telefone
     public String getTelefone() {
         return this.telefone;
     }
@@ -68,5 +97,23 @@ public class Usuario {
             throw new Exception("Telefone inválido! Deve ter pelo menos 10 caracteres.");
         }
         this.telefone = telefone;
+    }
+
+    // Getters e Setters para id
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    // Getters e Setters para nome
+    public String getNome() {
+        return this.nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

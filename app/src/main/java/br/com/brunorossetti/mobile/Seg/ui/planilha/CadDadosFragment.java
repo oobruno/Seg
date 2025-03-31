@@ -7,15 +7,20 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import br.com.brunorossetti.mobile.Seg.R;
+import br.com.brunorossetti.mobile.Seg.model.Usuario;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CadDadosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CadDadosFragment extends Fragment {
+public class CadDadosFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +30,13 @@ public class CadDadosFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private View view;
+
+    private EditText editTextTextPassword;
+    private EditText editTextText;
+    private EditText editTextTextEmailAddress;
+    private EditText editTextPhone;
+    private Button button2;
 
     public CadDadosFragment() {
         // Required empty public constructor
@@ -61,6 +73,35 @@ public class CadDadosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cad_dados, container, false);
+        this.view = inflater.inflate(R.layout.fragment_cad_dados, container, false);
+
+        //binding
+        this.editTextPhone = view.findViewById(R.id.editTextPhone);
+        this.editTextTextEmailAddress = view.findViewById(R.id.editTextTextEmailAddress);
+        this.button2 = view.findViewById(R.id.button2);
+        this.editTextText = view.findViewById(R.id.editTextText);
+        this.editTextTextPassword = view.findViewById(R.id.editTextTextPassword);
+        this.button2.setOnClickListener(this);
+        return view;
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.button2){
+
+            //instanciar meu obj de negocio
+            try {
+                Usuario usuario = new Usuario();
+                usuario.setNome(String.valueOf(this.editTextText.getText()).toString());
+                usuario.setEmail(this.editTextTextEmailAddress.getText().toString());
+                usuario.setTelefone(this.editTextPhone.getText().toString());
+                usuario.setSenha(this.editTextTextPassword.getText().toString());
+
+                Toast.makeText(view.getContext(), "Dados Salvos!", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
