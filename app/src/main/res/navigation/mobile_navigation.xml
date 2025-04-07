@@ -22,6 +22,7 @@
         android:name="br.com.brunorossetti.mobile.Seg.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
     <fragment
         android:id="@+id/navigation_cad_dados"
         android:name="br.com.brunorossetti.mobile.Seg.ui.planilha.CadDadosFragment"
