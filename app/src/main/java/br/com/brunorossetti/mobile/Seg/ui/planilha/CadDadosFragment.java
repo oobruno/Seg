@@ -1,5 +1,7 @@
 package br.com.brunorossetti.mobile.Seg.ui.planilha;
 
+import android.content.Context;
+import android.location.GnssAntennaInfo;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +14,19 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import javax.xml.transform.ErrorListener;
+
 import br.com.brunorossetti.mobile.Seg.R;
 import br.com.brunorossetti.mobile.Seg.model.Usuario;
 
@@ -20,8 +35,7 @@ import br.com.brunorossetti.mobile.Seg.model.Usuario;
  * Use the {@link CadDadosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CadDadosFragment extends Fragment implements View.OnClickListener {
-
+public class CadDadosFragment extends Fragment implements View.OnClickListener, Response.ErrorListener, Response.Listener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,6 +51,10 @@ public class CadDadosFragment extends Fragment implements View.OnClickListener {
     private EditText editTextTextEmailAddress;
     private EditText editTextPhone;
     private Button button2;
+    //volley
+    private RequestQueue requestQueue;
+    private JsonObjectRequest jsonObjectReq;
+
 
     public CadDadosFragment() {
         // Required empty public constructor
@@ -82,6 +100,10 @@ public class CadDadosFragment extends Fragment implements View.OnClickListener {
         this.editTextText = view.findViewById(R.id.editTextText);
         this.editTextTextPassword = view.findViewById(R.id.editTextTextPassword);
         this.button2.setOnClickListener(this);
+        //instanciando a fila de requests - caso o objeto seja o view
+        this.requestQueue = Volley.newRequestQueue(view.getContext());
+        //inicializando a fila de requests do SO
+        this.requestQueue.start();
         return view;
     }
 
@@ -97,11 +119,55 @@ public class CadDadosFragment extends Fragment implements View.OnClickListener {
                 usuario.setEmail(this.editTextTextEmailAddress.getText().toString());
                 usuario.setTelefone(this.editTextPhone.getText().toString());
                 usuario.setSenha(this.editTextTextPassword.getText().toString());
+                //REQUEST VOLLEY AQUI !!!!!!!
+                jsonObjectReq = new JsonObjectRequest(
+                        Request.Method.POST,
+                        "http://10.0.2.2:8080/seg/cadusuario.php",
+                        usuario.toJsonObject(), this, this);
+                requestQueue.add(jsonObjectReq);
 
                 Toast.makeText(view.getContext(), "Dados Salvos!", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Snackbar mensagem = Snackbar.make(view,
+                "Ops! Houve um problema ao realizar o cadastro: " +
+                        error.toString(),Snackbar.LENGTH_LONG);
+        mensagem.show();
+    }
+
+    @Override
+    public void onResponse(Object response) {
+        try {
+//instanciando objeto para manejar o JSON que recebemos
+            JSONObject json = new JSONObject(response.toString());
+//context e text são para a mensagem na tela o Toast
+            Context context = view.getContext();
+//pegando mensagem que veio do json
+            CharSequence mensagem = json.getString("message");
+//duração da mensagem na tela
+            int duration = Toast.LENGTH_SHORT;
+//verificando se salvou sem erro para limpar campos da tela
+            if (json.getBoolean("success")){
+                /* limpar campos da tela */
+                this.editTextText.setText("");
+                this.editTextTextEmailAddress.setText("");
+                this.editTextTextPassword.setText("");
+                this.editTextPhone.setText("");
+
+            }
+//mostrando a mensagem que veio do JSON
+            Toast toast = Toast.makeText (context, mensagem, duration);
+            toast.show();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
