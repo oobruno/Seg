@@ -28,4 +28,9 @@
         android:name="br.com.brunorossetti.mobile.Seg.ui.planilha.CadDadosFragment"
         android:label="@string/title_cad_dados"
         tools:layout="@layout/fragment_cad_dados" />
+    <fragment
+        android:id="@+id/navigation_cad_usuario"
+        android:name="br.com.brunorossetti.mobile.Seg.ui.planilha.CadUsuarioFragment"
+        android:label="Lista de cadastro de usuario"
+        tools:layout="@layout/fragment_cad_usuario_list" />
 </navigation>

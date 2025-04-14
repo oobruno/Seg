@@ -3,24 +3,23 @@ package br.com.brunorossetti.mobile.Seg.ui.planilha;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import br.com.brunorossetti.mobile.Seg.ui.planilha.placeholder.PlaceholderContent.PlaceholderItem;
 import br.com.brunorossetti.mobile.Seg.databinding.FragmentCadUsuarioBinding;
+import br.com.brunorossetti.mobile.Seg.model.Usuario;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
+ * {@link RecyclerView.Adapter} that can display a {@link Usuario}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class CadRecyclerViewAdapter extends RecyclerView.Adapter<CadRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    private final List<Usuario> mValues;
 
-    public CadRecyclerViewAdapter(List<PlaceholderItem> items) {
+    public CadRecyclerViewAdapter(List<Usuario> items) {
         mValues = items;
     }
 
@@ -34,8 +33,8 @@ public class CadRecyclerViewAdapter extends RecyclerView.Adapter<CadRecyclerView
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(mValues.get(position).getUsuario());
+        holder.mContentView.setText(mValues.get(position).getEmail());
     }
 
     @Override
@@ -46,7 +45,7 @@ public class CadRecyclerViewAdapter extends RecyclerView.Adapter<CadRecyclerView
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mIdView;
         public final TextView mContentView;
-        public PlaceholderItem mItem;
+        public Usuario mItem;
 
         public ViewHolder(FragmentCadUsuarioBinding binding) {
             super(binding.getRoot());
