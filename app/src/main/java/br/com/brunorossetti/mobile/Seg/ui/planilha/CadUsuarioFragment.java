@@ -116,7 +116,7 @@ public class CadUsuarioFragment extends Fragment
         mensagem.show();
     }
 
-    }
+
 
     @Override
     public void onResponse(Object response) {

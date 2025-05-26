@@ -122,7 +122,7 @@ public class CadDadosFragment extends Fragment implements View.OnClickListener, 
                 //REQUEST VOLLEY AQUI !!!!!!!
                 jsonObjectReq = new JsonObjectRequest(
                         Request.Method.POST,
-                        "http://10.0.2.2:8080/seg/cadusuario.php",
+                        "http://10.0.2.2/Seg/conautenticacao.php",
                         usuario.toJsonObject(), this, this);
                 requestQueue.add(jsonObjectReq);
 
