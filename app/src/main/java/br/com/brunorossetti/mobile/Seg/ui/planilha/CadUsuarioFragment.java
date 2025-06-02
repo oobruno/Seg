@@ -96,7 +96,7 @@ public class CadUsuarioFragment extends Fragment
             jsonArray.put(usuario.toJsonObject());
             //requisição para o Rest Server SEMPRE POST
             jsonArrayReq = new JsonArrayRequest(Request.Method.POST,
-                    "http://10.0.2.2:8080/seg/conusuario.php",
+                    "http://10.0.2.2/Seg/conusuario.php",
                     jsonArray, this, this);
             //mando executar a requisção na fila do sistema
             requestQueue.add(jsonArrayReq);
